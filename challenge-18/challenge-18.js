@@ -17,6 +17,19 @@ eles! Use um console.log para cada CPF.
 console.log( 'Limpando CPFs:' );
 // ?
 
+
+    function cleanCpf(cpf){
+        var regex = /\d/g;
+       var arrayCpf =  cpf.match(regex);
+       var novoCpf ="";
+       for(var i = 0; i < arrayCpf.length; i++){
+           novoCpf+= arrayCpf[i];
+       }
+       return novoCpf;
+    }
+
+
+    console.log(cleanCpf("049-214 3421-1"));
 /*
 Usando os CPFs limpos acima, deixe-os com a formatação correta de CPF.
 Ex.: "999.999.999-99"
@@ -24,6 +37,19 @@ Mostre o resultado no console.
 */
 console.log( '\nFormatando CPFs corretamente:' );
 // ?
+
+    function cpfCorreto(cpf){
+        console.log(cpf);
+        cpf = cpf.split('');
+        cpf.splice(3, 0, ".");
+        console.log(cpf);
+        cpf.splice(7, 0, ".");
+        cpf.splice(11, 0, "-");
+        console.log(cpf);
+        return cpf.join('');
+    }
+
+    console.log(cpfCorreto(cleanCpf("049-214 3421-1")));
 
 /*
 Crie uma expressão regular que faça match com as palavras "junho" ou "julho",
@@ -38,6 +64,10 @@ O resultado deve ser:
 */
 console.log( '\nMatch com as palavras "junho" ou "julho" para a frase "Os meses de janeiro, junho e julho começam com a letra j.":' );
 // ?
+
+    var texto = "Os meses de janeiro, junho e julho começam com a letra j."
+    var regex = /ju\w+/g;
+    console.log(texto.match(regex));
 
 /*
 Crie uma expressão regular que faça o match com a abertura de uma tag
