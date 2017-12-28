@@ -80,6 +80,9 @@ O resultado deve ser:
 */
 console.log( '\nMatch com a abertura de uma tag HTML:' );
 // ?
+    var texto = "<div><section><blockquote>Texto <img /></blockquote></section></div>";
+    var regex = /\<\w+\>/g;
+    console.log(texto.match(regex));
 
 /*
 Crie uma expressão regular que faça o match com uma tag HTML vazia, casando
@@ -92,6 +95,9 @@ O resultado deve ser:
 */
 console.log( '\nMatch com tags HTML vazias (abertura e fechamento da tag):' );
 // ?
+   var texto = "<div><ul><li></li><li></li><li><span></span></li></ul></div>";
+    var regex = /\<\w+\>\<\/\w+>/g;
+    console.log(texto.match(regex));
 
 /*
 Vamos complicar um pouco agora :D
