@@ -25,3 +25,68 @@
   - Utilize a lib DOM criada anteriormente para facilitar a manipulação e
   adicionar as informações em tela.
   */
+(function(win, doc){
+
+    var $botao = elementoDom("[data-js='botao']");
+    var $status = elementoDom("[data-js='status']");
+    var $cidade = elementoDom("[data-js='cidade']");
+    var $estado = elementoDom("[data-js='estado']");
+    var $bairro = elementoDom("[data-js='bairro']");
+    var $logradouro = elementoDom("[data-js='logradouro']");
+    var $cep2 = elementoDom("[data-js='cep2']");
+
+    function elementoDom(Str){
+        return doc.querySelector(Str);
+    }
+
+
+
+    function getCEP(){
+        return doc.querySelector("[data-js='cep']").value;
+    }
+
+    function limparCep(cep){
+        var regex = /\d+/g;
+        return cep.match(regex).join("");
+    }
+
+
+
+    $botao.addEventListener("click", function(event){
+        event.preventDefault();
+        var ajax = new  XMLHttpRequest();
+        var endereco = "https://viacep.com.br/ws/[CEP]/json/";
+        var regex = /\[CEP\]/g;
+        endereco = endereco.replace(regex, limparCep(getCEP()));
+        ajax.open("GET", endereco)
+        ajax.send(null);
+
+        ajax.addEventListener("readystatechange", function(){
+            $status.textContent = "Buscando informações para o CEP " + getCEP() + "...";
+            
+            if(ajax.status == 200 && ajax.readyState == 4){   
+                var dados = JSON.parse(ajax.responseText);
+                if(dados.localidade != undefined){
+                    $status.textContent = "ENDEREÇO REFERENTE AO CEP: " + getCEP();       
+                    $cidade.value = dados.localidade;
+                    $estado.value = dados.uf;
+                    $bairro.value = dados.bairro;
+                    $cep2.value = dados.cep;
+                    $logradouro.value = dados.logradouro;
+                 }
+                 else{
+                    $status.textContent = "Não encontramos o endereço para o CEP: " + getCEP();
+                 }
+            }
+            else{
+                $status.textContent = "Não encontramos o endereço para o CEP: " + getCEP();
+            }
+
+        });
+        
+    })
+    
+
+
+
+})(window, document);
